@@ -1,18 +1,32 @@
 package bg.smg.frame;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import bg.smg.model.Account;
+import bg.smg.model.User;
 
-public class MainFrame extends JFrame  {
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainFrame extends JFrame implements ItemListener, ActionListener {
     private JLabel bannerLbl;
     private ImageIcon bannerIcn;
     private JLabel screenTitle;
 
+    static JFrame mainFr;
+    static JComboBox menuAccounts;
 
-    public MainFrame(){
-        this.setSize(600,500);
-        this.setTitle("Bank App");
+
+    public MainFrame(User currentUser){
+        mainFr = new JFrame();
+        mainFr.setSize(600,500);
+        mainFr.setTitle("Bank App");
+        mainFr.setLayout(new FlowLayout());
 
         //bannerIcn = new ImageIcon("resources/bankBanner.png");
         Image image = new ImageIcon("resources/bankBanner.png").getImage();
@@ -20,11 +34,47 @@ public class MainFrame extends JFrame  {
         bannerIcn = new ImageIcon(scaledInstance);
 
         bannerLbl = new JLabel(bannerIcn);
-        bannerLbl.setVerticalAlignment(SwingConstants.TOP);
+
+        mainFr.add(bannerLbl);
 
 
-        this.add(bannerLbl);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
+        List<Account> currentUserAccounts = currentUser.getBankAccounts();
+        List<String> currentUserIbans = new ArrayList<>();
+        for(Account account : currentUserAccounts) {
+            currentUserIbans.add(account.getIBAN());
+        }
+        menuAccounts = new JComboBox(currentUserIbans.toArray());
+
+        menuAccounts.addItemListener(this);
+        JPanel menuPanel = new JPanel();
+        menuPanel.setBorder(new LineBorder(Color.RED));
+        menuPanel.add(menuAccounts);
+
+        mainFr.add(menuPanel);
+
+        mainFr.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        mainFr.setVisible(true);
+    }
+
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    /**
+     * Invoked when an item has been selected or deselected by the user.
+     * The code written for this method performs the operations
+     * that need to occur when an item is selected (or deselected).
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+
     }
 }

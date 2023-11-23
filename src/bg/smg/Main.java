@@ -16,10 +16,10 @@ public class Main {
         List<Account> bankAccountsList = new ArrayList<>();
         Account bankAccount1 = new Account("BG23BG2342342348", 5000.50, Currency.BGN);
         bankAccountsList.add(bankAccount1);
-        Account bankAccount2 = new Account("BG23BG2348797900", 3000.33, Currency.EUR);
+        Account bankAccount2 = new Account("BG23BG2348797906", 3000.33, Currency.EUR);
         bankAccountsList.add(bankAccount2);
         User user = new User("u1", "p1", bankAccountsList);
-        new MainFrame();
+        new MainFrame(user);
 
     }
 }
